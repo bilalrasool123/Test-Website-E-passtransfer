@@ -30,14 +30,14 @@ const Employees = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        // keep console for debugging profile fetch
+
         console.log("profile fetch response:", response);
+
         if (response.ok) {
           const data = await response.json();
           setUserRole(data.user_type);
           setCurrentUserId(data.id);
         } else {
-          // try to log body if not ok
           try {
             const txt = await response.text();
             console.log("profile fetch body:", txt);
@@ -63,8 +63,9 @@ const Employees = () => {
           Authorization: `Bearer ${token}`,
         },
       });
+
       console.log("fetchEmployees response:", response);
-      // parse response robustly
+
       let data;
       try {
         const ct = response.headers.get("content-type") || "";
@@ -141,11 +142,70 @@ const Employees = () => {
     }
   };
 
+  const getGermanInviteError = (res, data) => {
+    const rawError =
+      data?.error ||
+      data?.message ||
+      data?.email?.[0] ||
+      data?.role?.[0] ||
+      data?.state?.[0] ||
+      "";
+
+    if (
+      rawError ===
+      "eID data does not match user data. Please check your name and date of birth."
+    ) {
+      return "Die Daten aus Ihrem Ausweis stimmen nicht mit Ihrem Profil überein. Bitte überprüfen Sie Ihren Namen und Ihr Geburtsdatum.";
+    }
+
+    if (
+      rawError ===
+      "eID verification is still in progress. Please wait and try again."
+    ) {
+      return "Die eID-Verifizierung ist noch nicht abgeschlossen. Bitte warten Sie einen Moment und versuchen Sie es erneut.";
+    }
+
+    if (rawError.startsWith("eID verification failed:")) {
+      return "Die eID-Verifizierung ist fehlgeschlagen. Bitte versuchen Sie es erneut.";
+    }
+
+    if (
+      rawError ===
+      "eID session expired or invalid. Please start eID verification again."
+    ) {
+      return "Die eID-Sitzung ist abgelaufen oder ungültig. Bitte starten Sie die eID-Verifizierung erneut.";
+    }
+
+    if (
+      rawError ===
+      "eID verification mismatch. The eID session does not match your account."
+    ) {
+      return "Die eID-Verifizierung passt nicht zu Ihrem Konto. Bitte starten Sie die eID-Verifizierung erneut.";
+    }
+
+    if (res?.status === 202) {
+      return "Die eID-Verifizierung ist noch nicht abgeschlossen. Bitte warten Sie einen Moment und versuchen Sie es erneut.";
+    }
+
+    if (res?.status === 403) {
+      return "Die eID-Verifizierung passt nicht zu Ihrem Konto. Bitte starten Sie die eID-Verifizierung erneut.";
+    }
+
+    if (res?.status === 400) {
+      return "Die eID-Verifizierung ist fehlgeschlagen. Bitte versuchen Sie es erneut.";
+    }
+
+    return (
+      rawError ||
+      "Die Einladung konnte nicht gesendet werden. Bitte versuchen Sie es erneut."
+    );
+  };
+
   const handleInvite = async (e) => {
     e.preventDefault();
 
     if (userRole !== "owner" && userRole !== "manager") {
-      setError("Only owners or managers can send invitations.");
+      setError("Nur Eigentümer oder Manager können Einladungen senden.");
       return;
     }
 
@@ -173,7 +233,6 @@ const Employees = () => {
       const left = window.screenX + (window.outerWidth - popupWidth) / 2;
       const top = window.screenY + (window.outerHeight - popupHeight) / 2;
 
-      // Open popup immediately from the click event
       authWindow = window.open(
         "",
         "invite_eid_window",
@@ -227,14 +286,18 @@ const Employees = () => {
       console.log("eid/start response data:", eidStartData);
 
       if (!eidStartResponse.ok) {
-        authWindow.close();
-        setError(eidStartData?.message || "eID-Start fehlgeschlagen.");
+        if (authWindow && !authWindow.closed) authWindow.close();
+        setError(
+          eidStartData?.message ||
+            eidStartData?.error ||
+            "eID-Start fehlgeschlagen."
+        );
         setLoading(false);
         return;
       }
 
       if (!eidStartData?.auth_url || !eidStartData?.state) {
-        authWindow.close();
+        if (authWindow && !authWindow.closed) authWindow.close();
         setError("Ungültige Antwort vom Server.");
         setLoading(false);
         return;
@@ -245,7 +308,7 @@ const Employees = () => {
       const cleanedAuthUrl = removeClaimsParam(eidStartData.auth_url);
 
       if (!cleanedAuthUrl) {
-        authWindow.close();
+        if (authWindow && !authWindow.closed) authWindow.close();
         setError("Ungültige auth_url vom Server.");
         setLoading(false);
         return;
@@ -253,7 +316,7 @@ const Employees = () => {
 
       authWindow.location.href = cleanedAuthUrl;
 
-      const waitForPopupClose = await new Promise((resolve) => {
+      await new Promise((resolve) => {
         const checkIfClosed = setInterval(() => {
           if (!authWindow || authWindow.closed) {
             clearInterval(checkIfClosed);
@@ -262,58 +325,49 @@ const Employees = () => {
         }, 1000);
       });
 
-      if (waitForPopupClose) {
-        const response = await fetch(`${base_url}/photobooth/invite-employee/`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            ...inviteRequestBody,
-            state: eidStateRef.current,
-          }),
-        });
-
-        console.log("Invite request body:", {
+      const response = await fetch(`${base_url}/photobooth/invite-employee/`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
           ...inviteRequestBody,
           state: eidStateRef.current,
-        });
-        console.log("Invite response (raw):", response);
+        }),
+      });
 
-        let data;
-        try {
-          const ct = response.headers.get("content-type") || "";
-          if (ct.includes("application/json")) {
-            data = await response.json();
-          } else {
-            const text = await response.text();
-            data = { message: text };
-            console.log("Invite non-json response body:", text);
-          }
-        } catch (parseErr) {
-          console.error("Error parsing invite response:", parseErr);
-          data = {};
-        }
+      console.log("Invite request body:", {
+        ...inviteRequestBody,
+        state: eidStateRef.current,
+      });
+      console.log("Invite response (raw):", response);
 
-        console.log("Response data:", data);
-
-        if (response.ok) {
-          setEmail("");
-          setAccessLevel("Eingeschränkt");
-          setShowModal(false);
-          setShowSuccessModal(true);
-          fetchEmployees();
+      let data;
+      try {
+        const ct = response.headers.get("content-type") || "";
+        if (ct.includes("application/json")) {
+          data = await response.json();
         } else {
-          setError(
-            data?.email?.[0] ||
-              data?.role?.[0] ||
-              data?.state?.[0] ||
-              data?.error ||
-              data?.message ||
-              "❌ Invitation failed"
-          );
+          const text = await response.text();
+          data = { message: text };
+          console.log("Invite non-json response body:", text);
         }
+      } catch (parseErr) {
+        console.error("Error parsing invite response:", parseErr);
+        data = {};
+      }
+
+      console.log("Response data:", data);
+
+      if (response.status === 200) {
+        setEmail("");
+        setAccessLevel("Eingeschränkt");
+        setShowModal(false);
+        setShowSuccessModal(true);
+        fetchEmployees();
+      } else {
+        setError(getGermanInviteError(response, data));
       }
     } catch (err) {
       console.error("Invite flow error:", err);
@@ -322,7 +376,9 @@ const Employees = () => {
         authWindow.close();
       }
 
-      setError("❌ Fehler beim Starten der eID-Verifizierung oder Einladung.");
+      setError(
+        "Beim Starten der eID-Verifizierung oder beim Senden der Einladung ist ein Fehler aufgetreten."
+      );
     } finally {
       setLoading(false);
     }
@@ -346,7 +402,9 @@ const Employees = () => {
           },
         }
       );
+
       console.log("delete response:", res);
+
       if (res.status === 200) {
         alert("✅ Mitarbeiter erfolgreich gelöscht");
         fetchEmployees();
@@ -384,11 +442,14 @@ const Employees = () => {
 
   return (
     <div className="min-h-screen lg:px-6 lg:py-10 px-2 py-8 max-w-6xl mx-auto">
-      <div className="flex justify-between  items-center mb-6">
+      <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Mitarbeitende</h1>
         {(userRole === "owner" || userRole === "manager") && (
           <button
-            onClick={() => setShowModal(true)}
+            onClick={() => {
+              setShowModal(true);
+              setError("");
+            }}
             className="bg-yellow-300 hover:bg-yellow-200 text-black px-4 py-2 rounded transition-colors duration-200"
           >
             Mitarbeitende einladen
@@ -405,10 +466,6 @@ const Employees = () => {
           className="w-full max-w-sm p-2 border-b-2 border-gray-300 outline-none focus:border-yellow-300 transition-colors duration-200"
         />
       </div>
-
-      {error && (
-        <p className="text-red-500 text-sm text-center mb-4">{error}</p>
-      )}
 
       <div className="overflow-x-auto border border-gray-200 rounded-lg shadow-sm">
         <table className="min-w-full text-sm text-center">
@@ -493,10 +550,11 @@ const Employees = () => {
             </h2>
             <p className="text-sm text-gray-700 mb-6">
               Sind Sie sicher, dass Sie diese Person dauerhaft aus dem System
-              löschen möchten?<br></br> <b>Achtung:</b> Beim Löschen werden alle
-              zugehörigen Daten unwiderruflich entfernt. Diese Aktion kann nicht
-              rückgängig gemacht werden. Bitte prüfen Sie sorgfältig, ob dieser
-              Schritt wirklich erforderlich ist. Möchten Sie den Mitarbeitenden
+              löschen möchten?
+              <br></br> <b>Achtung:</b> Beim Löschen werden alle zugehörigen
+              Daten unwiderruflich entfernt. Diese Aktion kann nicht rückgängig
+              gemacht werden. Bitte prüfen Sie sorgfältig, ob dieser Schritt
+              wirklich erforderlich ist. Möchten Sie den Mitarbeitenden
               endgültig löschen?
             </p>
             <div className="flex justify-end gap-2">
@@ -517,11 +575,17 @@ const Employees = () => {
         </div>
       )}
 
-      {/* Invite Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-30 flex items-center justify-center">
           <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
             <h2 className="text-xl font-semibold mb-4">Per E-Mail einladen</h2>
+
+            {error && (
+              <div className="mb-4 rounded-md border border-red-300 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {error}
+              </div>
+            )}
+
             <form onSubmit={handleInvite} className="space-y-4">
               <input
                 type="email"
@@ -531,6 +595,7 @@ const Employees = () => {
                 required
                 className="w-full border-b-2 border-yellow-300 outline-none bg-transparent p-1 focus:border-yellow-300"
               />
+
               <div>
                 <label
                   htmlFor="access"
@@ -538,13 +603,16 @@ const Employees = () => {
                 >
                   Berechtigungsstufe auswählen
                 </label>
+
                 <select
                   id="access"
                   value={accessLevel}
                   onChange={(e) => setAccessLevel(e.target.value)}
                   className="w-full border-b-2 border-yellow-300 outline-none bg-transparent p-1 focus:border-yellow-300"
                 >
-                  <option value="Eingeschränkt">Eingeschränkter Zugriff</option>
+                  <option value="Eingeschränkt">
+                    Eingeschränkter Zugriff
+                  </option>
                   <option value="Vollzugriff">Vollzugriff</option>
                 </select>
 
@@ -576,6 +644,7 @@ const Employees = () => {
                 >
                   Abbrechen
                 </button>
+
                 <button
                   type="submit"
                   disabled={loading}
@@ -589,7 +658,6 @@ const Employees = () => {
         </div>
       )}
 
-      {/* Success Modal */}
       {showSuccessModal && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-30 flex items-center justify-center">
           <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-md text-center">
