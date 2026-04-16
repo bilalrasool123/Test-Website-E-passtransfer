@@ -1,0 +1,14 @@
+{
+  "name": "e-passtransfer",
+  "short_name": "e-passtransfer",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff",
+  "display": "standalone"
+}

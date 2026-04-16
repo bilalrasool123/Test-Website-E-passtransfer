@@ -1,0 +1,7 @@
+# robots.txt for https://www.e-passtransfer.de/
+
+User-agent: *
+Disallow:
+
+# Sitemap location
+Sitemap: https://www.e-passtransfer.de/sitemap.xml

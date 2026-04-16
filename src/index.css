@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add this to your global CSS file or a style block */
+@keyframes breathingGlow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  }
+  50% {
+    transform: scale(1.015);
+    box-shadow: 0 8px 24px rgba(34, 197, 94, 0.18);
+  }
+}
+
+.breathing-card {
+  animation: breathingGlow 2.8s ease-in-out infinite;
+}

@@ -1,0 +1,14 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "2CH8D33FNQ.com.miradev.passbildexpress",
+        "paths": [
+          "/adesso-redirect",
+          "/adesso-redirect/*"
+        ]
+      }
+    ]
+  }
+}
