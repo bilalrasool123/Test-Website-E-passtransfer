@@ -347,7 +347,7 @@ const Employees = () => {
         }
       );
       console.log("delete response:", res);
-      if (res.ok) {
+      if (res.status === 200) {
         alert("✅ Mitarbeiter erfolgreich gelöscht");
         fetchEmployees();
       } else {
