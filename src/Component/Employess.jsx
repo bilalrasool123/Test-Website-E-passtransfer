@@ -1,6 +1,6 @@
 /* eslint-disable no-irregular-whitespace */
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BsCheckCircle } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 
@@ -20,6 +20,7 @@ const Employees = () => {
 
   const token = sessionStorage.getItem("authToken");
   const base_url = import.meta.env.VITE_BASE_URL;
+  const eidStateRef = useRef("");
 
   useEffect(() => {
     const fetchUserRole = async () => {
@@ -50,7 +51,7 @@ const Employees = () => {
     };
 
     fetchUserRole();
-  }, [token]);
+  }, [token, base_url]);
 
   const fetchEmployees = async () => {
     if (!token) return;
@@ -98,6 +99,48 @@ const Employees = () => {
     fetchEmployees();
   }, []);
 
+  const normalizeAuthUrl = (rawUrl) => {
+    if (!rawUrl || typeof rawUrl !== "string") return "";
+
+    let cleaned = rawUrl.trim().replace(/^['"]|['"]$/g, "");
+
+    if (cleaned.startsWith("www.")) {
+      cleaned = `https://${cleaned}`;
+    }
+
+    if (cleaned.startsWith("//")) {
+      cleaned = `https:${cleaned}`;
+    }
+
+    if (
+      cleaned &&
+      !cleaned.startsWith("http://") &&
+      !cleaned.startsWith("https://")
+    ) {
+      cleaned = `https://${cleaned}`;
+    }
+
+    return cleaned;
+  };
+
+  const removeClaimsParam = (rawUrl) => {
+    try {
+      const normalizedUrl = normalizeAuthUrl(rawUrl);
+
+      if (!normalizedUrl) {
+        throw new Error("auth_url is empty or invalid");
+      }
+
+      const parsedUrl = new URL(normalizedUrl);
+      parsedUrl.searchParams.delete("claims");
+
+      return parsedUrl.toString();
+    } catch (err) {
+      console.error("Invalid auth_url:", JSON.stringify(rawUrl), err);
+      return "";
+    }
+  };
+
   const handleInvite = async (e) => {
     e.preventDefault();
 
@@ -106,70 +149,180 @@ const Employees = () => {
       return;
     }
 
+    if (!token) {
+      setError("Kein Zugriffstoken gefunden.");
+      return;
+    }
+
     setError("");
     setLoading(true);
 
     const trimmedAccess = accessLevel.trim();
-    // decide role to send in body
     const role = trimmedAccess === "Vollzugriff" ? "manager" : "employee";
 
-    // IMPORTANT: send only email + role to match API
-    const requestBody = {
+    const inviteRequestBody = {
       email,
       role,
     };
 
+    let authWindow = null;
+
     try {
-      const response = await fetch(`${base_url}/photobooth/invite-employee/`, {
+      const popupWidth = 520;
+      const popupHeight = 720;
+      const left = window.screenX + (window.outerWidth - popupWidth) / 2;
+      const top = window.screenY + (window.outerHeight - popupHeight) / 2;
+
+      // Open popup immediately from the click event
+      authWindow = window.open(
+        "",
+        "invite_eid_window",
+        `width=${popupWidth},height=${popupHeight},left=${left},top=${top},resizable=yes,scrollbars=yes`
+      );
+
+      if (!authWindow) {
+        setError("Das eID-Fenster konnte nicht geöffnet werden.");
+        setLoading(false);
+        return;
+      }
+
+      authWindow.document.write(`
+        <html>
+          <head><title>eID-Verifizierung</title></head>
+          <body style="font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;">
+            <div>Lade eID-Verifizierung...</div>
+          </body>
+        </html>
+      `);
+      authWindow.document.close();
+
+      const eidStartResponse = await fetch(`${base_url}/eid/start/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(requestBody),
+        body: JSON.stringify({
+          purpose: "invite",
+        }),
       });
 
-      // keep console logs (you asked to keep them)
-      console.log("Invite request body:", requestBody);
-      console.log("Invite response (raw):", response);
+      console.log("eid/start response:", eidStartResponse);
 
-      // parse response safely (handle JSON and non-JSON)
-      let data;
+      let eidStartData;
       try {
-        const ct = response.headers.get("content-type") || "";
+        const ct = eidStartResponse.headers.get("content-type") || "";
         if (ct.includes("application/json")) {
-          data = await response.json();
+          eidStartData = await eidStartResponse.json();
         } else {
-          const text = await response.text();
-          data = { message: text };
-          console.log("Invite non-json response body:", text);
+          const text = await eidStartResponse.text();
+          console.log("eid/start non-json response body:", text);
+          eidStartData = { message: text };
         }
       } catch (parseErr) {
-        console.error("Error parsing invite response:", parseErr);
-        data = {};
+        console.error("Error parsing eid/start response:", parseErr);
+        eidStartData = {};
       }
 
-      console.log("Response data:", data);
+      console.log("eid/start response data:", eidStartData);
 
-      if (response.ok) {
-        setEmail("");
-        setAccessLevel("Eingeschränkt");
-        setShowModal(false);
-        setShowSuccessModal(true);
-        fetchEmployees();
-      } else {
-        // API error shapes: { email: [...] } or { error: "..." } or { message: "..." }
-        setError(
-          data?.email?.[0] ||
-            data?.role?.[0] ||
-            data?.error ||
-            data?.message ||
-            "❌ Invitation failed"
-        );
+      if (!eidStartResponse.ok) {
+        authWindow.close();
+        setError(eidStartData?.message || "eID-Start fehlgeschlagen.");
+        setLoading(false);
+        return;
+      }
+
+      if (!eidStartData?.auth_url || !eidStartData?.state) {
+        authWindow.close();
+        setError("Ungültige Antwort vom Server.");
+        setLoading(false);
+        return;
+      }
+
+      eidStateRef.current = eidStartData.state;
+
+      const cleanedAuthUrl = removeClaimsParam(eidStartData.auth_url);
+
+      if (!cleanedAuthUrl) {
+        authWindow.close();
+        setError("Ungültige auth_url vom Server.");
+        setLoading(false);
+        return;
+      }
+
+      authWindow.location.href = cleanedAuthUrl;
+
+      const waitForPopupClose = await new Promise((resolve) => {
+        const checkIfClosed = setInterval(() => {
+          if (!authWindow || authWindow.closed) {
+            clearInterval(checkIfClosed);
+            resolve(true);
+          }
+        }, 1000);
+      });
+
+      if (waitForPopupClose) {
+        const response = await fetch(`${base_url}/photobooth/invite-employee/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            ...inviteRequestBody,
+            state: eidStateRef.current,
+          }),
+        });
+
+        console.log("Invite request body:", {
+          ...inviteRequestBody,
+          state: eidStateRef.current,
+        });
+        console.log("Invite response (raw):", response);
+
+        let data;
+        try {
+          const ct = response.headers.get("content-type") || "";
+          if (ct.includes("application/json")) {
+            data = await response.json();
+          } else {
+            const text = await response.text();
+            data = { message: text };
+            console.log("Invite non-json response body:", text);
+          }
+        } catch (parseErr) {
+          console.error("Error parsing invite response:", parseErr);
+          data = {};
+        }
+
+        console.log("Response data:", data);
+
+        if (response.ok) {
+          setEmail("");
+          setAccessLevel("Eingeschränkt");
+          setShowModal(false);
+          setShowSuccessModal(true);
+          fetchEmployees();
+        } else {
+          setError(
+            data?.email?.[0] ||
+              data?.role?.[0] ||
+              data?.state?.[0] ||
+              data?.error ||
+              data?.message ||
+              "❌ Invitation failed"
+          );
+        }
       }
     } catch (err) {
-      console.error("Network error:", err);
-      setError("❌ Network error. Please try again.");
+      console.error("Invite flow error:", err);
+
+      if (authWindow && !authWindow.closed) {
+        authWindow.close();
+      }
+
+      setError("❌ Fehler beim Starten der eID-Verifizierung oder Einladung.");
     } finally {
       setLoading(false);
     }
