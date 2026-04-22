@@ -7,8 +7,7 @@ const Pressebereich = () => {
       <div className="container mx-auto flex flex-col items-center px-4 sm:px-6 lg:px-8">
         <div className="w-full sm:w-5/6 md:w-3/4 ">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-6 ">
-            Allgemeine Geschäftsbedingungen (AGB) <br></br>der e-passtransfer
-            GmbH
+            ALLGEMEINE GESCHÄFTSBEDINGUNGEN (AGB)
           </h1>
           <p className="text-sm sm:text-base  md:text-lg text-gray-700  mb-4">
             <p className="mb-8">
