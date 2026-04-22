@@ -6,137 +6,169 @@ const Pressebereich = () => {
     <div className="bg-white py-10 text-center">
       <div className="container mx-auto flex flex-col items-center px-4 sm:px-6 lg:px-8">
         <div className="w-full sm:w-5/6 md:w-3/4 ">
+          
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-6 ">
             ALLGEMEINE GESCHÄFTSBEDINGUNGEN (AGB)
           </h1>
-          <p className="text-sm sm:text-base  md:text-lg text-gray-700  mb-4">
-            <p className="mb-8">
-              <b>1. Geltungsbereich</b>
-            </p>
-            {"   "}
-            Diese AGB gelten für alle Verträge zwischen der e-passtransfer GmbH und Unternehmern im Sinne des § 14 BGB. Verbraucher sind ausgeschlossen.
-            <br></br>
-            <br></br>
-          </p>
-          <p className="text-sm sm:text-base  md:text-lg text-gray-700  mb-4">
-            <p className="mb-8">
-              <b>2. Vertragsgegenstand </b>
-            </p>
-            {"   "}
-            Der Anbieter stellt eine Software zur Übertragung biometrischer Passbilder bereit. Die Software wird lokal installiert und genutzt. Die Datenübertragung erfolgt über gesicherte Verbindungen. Die Speicherung erfolgt auf Servern in Deutschland über zertifizierte Dienstleister (z. B. Open Telekom Cloud sowie Identifikationsdienste wie Governikus eID).
-          </p>
-          <br></br>
-          <p className="text-sm sm:text-base md:text-lg text-gray-700  mb-4">
-            <p className="mb-8">
-              <b>3. Vertragsschluss </b>
-            </p>
-            {"   "}
-            Der Vertrag kommt durch Registrierung und Freischaltung zustande.
+
+          <p className="mb-6 text-gray-700">
+            Version 1.0 – Stand: 14.04.2026
           </p>
 
+          {/* 1 */}
           <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
-            <span className="block mb-8 mt-8">
-              <b>4. Preise und Zahlungsbedingungen</b>
-            </span>
+            <b>1. Geltungsbereich</b>
+            <br /><br />
+            Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge zwischen der e-passtransfer GmbH (nachfolgend „Anbieter“) und Unternehmern im Sinne des § 14 BGB.
+            <br /><br />
+            Verbraucher im Sinne des § 13 BGB sind von der Nutzung ausgeschlossen.
+          </p>
 
-            <span className="block mb-4">
-              Alle Preise verstehen sich zzgl. gesetzlicher Umsatzsteuer.
-            </span>
+          {/* 2 */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+            <b>2. Vertragsgegenstand</b>
+            <br /><br />
+            Der Anbieter stellt eine Softwarelösung zur gesetzeskonformen Übertragung biometrischer Passbilder bereit.
+            <br /><br />
+            Die Software wird lokal installiert und genutzt. Die Datenübertragung erfolgt verschlüsselt über gesicherte Verbindungen.
+            <br /><br />
+            Die Speicherung und Verarbeitung erfolgt über zertifizierte Dienstleister in Deutschland, insbesondere die Open Telekom Cloud sowie Identifikationsdienste wie Governikus eID.
+          </p>
 
-            <ul className="list-disc pl-16 space-y-2 text-left">
-              <li >Pro erfolgreicher Bildübertragung: 0,75 €</li>
+          {/* 3 */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+            <b>3. Vertragsschluss</b>
+            <br /><br />
+            Der Vertrag kommt durch Registrierung des Kunden und Freischaltung durch den Anbieter zustande.
+          </p>
+
+          {/* 4 */}
+          <div className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+            <b>4. Preise und Zahlungsbedingungen</b>
+            <br /><br />
+            Alle Preise verstehen sich zuzüglich der gesetzlichen Umsatzsteuer.
+            <br /><br />
+            Es gelten folgende Modelle:
+
+            <ul className="list-disc list-inside space-y-2 text-center mt-4">
+              <li>Pro erfolgreicher Bildübertragung: 0,75 €</li>
               <li>Einmalige Identifikation: 0,99 €</li>
-              <li>
-                Monatliches Abonnement (Flatrate-Modell): 49,00 € pro Monat
-                (unbegrenzte Nutzung im Rahmen der üblichen Nutzung gemäß diesen AGB)
-              </li>
+              <li>Monatliches Abonnement: 49,00 € pro Standort</li>
             </ul>
-            <span className="block">Monatliches Abonnement (Flatrate-Modell): 49,00 € pro Monat (unbegrenzte Nutzung im Rahmen der üblichen Nutzung gemäß diesen AGB)</span>
-            <span className="block">Die Abrechnung erfolgt monatlich per SEPA-Lastschrift.</span>
 
-          </p>
-
-
-          <p className="text-sm sm:text-base md:text-lg text-gray-700 mt-8 mb-4">
-            <p className="mb-8">
-              <b>5. Nutzungsrechte </b>
+            <p className="mt-4">
+              Das Abonnement gilt jeweils pro Standort. Für mehrere Standorte sind separate Abonnements erforderlich.
+              <br /><br />
+              Die Abrechnung erfolgt monatlich per SEPA-Lastschrift.
             </p>
-            {"   "}
-            Der Kunde erhält eine nicht-exklusive, nicht übertragbare und standortgebundene Lizenz. Weitergabe oder Manipulation ist untersagt.
+          </div>
+
+          {/* 5 */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+            <b>5. Nutzungsrechte</b>
+            <br /><br />
+            Der Kunde erhält ein einfaches, nicht übertragbares und standortgebundenes Nutzungsrecht.
+            <br /><br />
+            Eine Weitergabe, Vervielfältigung oder Manipulation der Software ist untersagt.
           </p>
 
-
-          <p className="text-sm sm:text-base md:text-lg text-gray-700 mt-8  mb-4">
-            <p className="mb-8">
-              <b>6. Verfügbarkeit und Haftung</b>
-            </p>
-            {"   "}
-            Eine unterbrechungsfreie Verfügbarkeit wird nicht garantiert. Der Anbieter haftet nur bei Vorsatz und grober Fahrlässigkeit. Eine Haftung für Entscheidungen von Behörden wird ausgeschlossen.
+          {/* 6 */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+            <b>6. Nutzung der Software</b>
+            <br /><br />
+            Die Nutzung ist ausschließlich für die Erstellung und Übertragung biometrischer Passbilder zulässig.
+            <br /><br />
+            Missbrauch, insbesondere durch Verwendung nicht zulässiger Inhalte oder falscher Nachweise, ist untersagt.
+            <br /><br />
+            Der Anbieter ist berechtigt, bei Verstößen den Zugang zu sperren.
           </p>
 
-
-          <p className="text-sm sm:text-base md:text-lg text-gray-700 mt-8 mb-4">
-            <p className="mb-8">
-              <b>7. Widerrufsrecht</b>
-            </p>
-            {"   "}
-            Ein Widerrufsrecht besteht nicht, da das Angebot ausschließlich an Unternehmer gerichtet ist.
-            <br></br>
+          {/* 7 */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+            <b>7. Verfügbarkeit</b>
+            <br /><br />
+            Der Anbieter stellt die Software im Rahmen der technischen Möglichkeiten bereit.
+            <br /><br />
+            Eine jederzeitige oder unterbrechungsfreie Verfügbarkeit wird nicht geschuldet.
+            <br /><br />
+            Wartungsarbeiten und technisch bedingte Ausfälle sind möglich.
           </p>
 
-
-          <p className="text-sm sm:text-base md:text-lg text-gray-700 mt-8  mb-4">
-            <p className="mb-8">
-              <b>8. Datenschutz </b>
-            </p>
-            {"   "}
-            Es gilt die Datenschutzerklärung.
+          {/* 8 */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+            <b>8. Drittanbieter und Schnittstellen</b>
+            <br /><br />
+            Der Anbieter kann Schnittstellen zu Drittsoftware (z. B. Adobe Lightroom) bereitstellen.
+            <br /><br />
+            Für die Verfügbarkeit, Funktionsfähigkeit und Änderungen dieser Drittanbieter übernimmt der Anbieter keine Haftung.
           </p>
 
-          <p className="text-sm sm:text-base md:text-lg text-gray-700 mt-8  mb-4">
-            <p className="mb-8">
-              <b>9. Vertragslaufzeit und Kündigung</b>
-            </p>
-            {"   "}
-            Unbefristeter Vertrag. Kündigung mit 14 Tagen Frist zum Monatsende.
+          {/* 9 */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+            <b>9. Behördenkontext</b>
+            <br /><br />
+            Der Anbieter stellt ausschließlich die technische Übertragung bereit.
+            <br /><br />
+            Eine Haftung für Entscheidungen, Verzögerungen oder Ablehnungen durch Behörden ist ausgeschlossen.
           </p>
 
-          <p className="text-sm sm:text-base md:text-lg text-gray-700 mt-8  mb-4">
-            <p className="mb-8">
-              <b>10. Nutzung der Software</b>
-            </p>
-            {"   "}
-            <span className="block">Die Nutzung ist ausschließlich für biometrische Passbilder zulässig. Missbrauch ist untersagt. Updates können bereitgestellt werden. Bei missbräuchlicher Nutzung kann der Zugang eingeschränkt werden.</span>
-            <span className="block">Der Anbieter kann Schnittstellen oder Erweiterungen zu Drittsoftware (z. B. Adobe Lightroom) bereitstellen. Für die Verfügbarkeit, Funktionsfähigkeit und Änderungen dieser Drittsoftware übernimmt der Anbieter keine Haftung.</span>
+          {/* 10 */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+            <b>10. Haftung</b>
+            <br /><br />
+            Der Anbieter haftet unbeschränkt für Schäden aus Vorsatz und grober Fahrlässigkeit sowie bei Schäden aus der Verletzung des Lebens, des Körpers oder der Gesundheit.
+            <br /><br />
+            Bei leichter Fahrlässigkeit haftet der Anbieter nur bei Verletzung wesentlicher Vertragspflichten (Kardinalpflichten). In diesem Fall ist die Haftung auf den typischerweise vorhersehbaren Schaden begrenzt.
+            <br /><br />
+            Die Haftung ist auf 1.000.000 € pro Schadensfall begrenzt.
+            <br /><br />
+            Eine Haftung für mittelbare Schäden ist ausgeschlossen, insbesondere für entgangenen Gewinn und Folgeschäden.
           </p>
 
-
-          <p className="text-sm sm:text-base md:text-lg text-gray-700 mt-8  mb-4">
-            <p className="mb-8">
-              <b>11. Behördenkontext</b>
-            </p>
-            {"   "}
-            Der Anbieter stellt ausschließlich die technische Übertragung bereit. Eine Haftung für Ablehnung durch Behörden besteht nicht.
+          {/* 11 */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+            <b>11. Datenschutz</b>
+            <br /><br />
+            Es gilt die gesonderte Datenschutzerklärung des Anbieters.
           </p>
 
-          <p className=" text-sm sm:text-base md:text-lg text-gray-700 mt-8  mb-4">
-            <p className="mb-8">
-            <b>12. Nachweisverpflichtung</b>
-            </p>
-            {"   "}
-            Der Kunde darf nur echte Nachweise verwenden. Verstöße führen zur Sperrung und ggf. rechtlichen Schritten.
+          {/* 12 */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+            <b>12. Vertragslaufzeit und Kündigung</b>
+            <br /><br />
+            Der Vertrag wird auf unbestimmte Zeit geschlossen.
+            <br /><br />
+            Die Kündigung ist mit einer Frist von 14 Tagen zum Monatsende möglich.
           </p>
 
-          <p className=" text-sm sm:text-base md:text-lg text-gray-700 mt-8  mb-4">
-            <p className="mb-8">
-            <b>13. Schlussbestimmungen</b>
-            </p>
-            {"   "}
-            Es gilt deutsches Recht. Gerichtsstand ist der Sitz des Anbieters.
+          {/* 13 */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+            <b>13. Nachweisverpflichtung</b>
+            <br /><br />
+            Der Kunde ist verpflichtet, ausschließlich echte und rechtmäßige Nachweise zu verwenden.
+            <br /><br />
+            Bei Verstößen ist der Anbieter berechtigt, den Zugang zu sperren und rechtliche Schritte einzuleiten.
           </p>
+
+          {/* 14 */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+            <b>14. Änderungen der AGB</b>
+            <br /><br />
+            Der Anbieter behält sich vor, diese AGB mit Wirkung für die Zukunft anzupassen.
+            <br /><br />
+            Änderungen werden dem Kunden rechtzeitig mitgeteilt.
+          </p>
+
+          {/* 15 */}
+          <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+            <b>15. Schlussbestimmungen</b>
+            <br /><br />
+            Es gilt deutsches Recht.
+            <br /><br />
+            Gerichtsstand ist der Sitz des Anbieters, sofern der Kunde Kaufmann ist.
+          </p>
+
         </div>
-        {/* Additional Text Section */}
-        {/* New Text Section */}
       </div>
     </div>
   );
