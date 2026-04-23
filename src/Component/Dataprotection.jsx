@@ -4,9 +4,6 @@ const Dataprotection = () => {
     <div className="max-w-6xl mx-auto p-6 text-black text-center">
       <div className="mb-6">
         <p className="font-bold text-3xl text-black">DATENSCHUTZERKLÄRUNG</p>
-        <p className="mt-2 text-sm sm:text-base md:text-lg text-gray-700 mb-2">
-          Wir informieren Sie über die Verarbeitung Ihrer personenbezogenen Daten gemäß DSGVO.
-        </p>
 
         <h2 className="text-2xl font-bold mt-6 mb-2">1. Verantwortlicher</h2>
         <p className="mt-2 text-sm sm:text-base md:text-lg text-gray-700 mb-2">
@@ -45,9 +42,6 @@ const Dataprotection = () => {
           10117 Berlin
         </p>
         <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-2">
-          Deutschland
-        </p>
-        <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-2">
           E-Mail:{" "}
           <a
             href="mailto:datenschutz@heydata.de"
@@ -56,75 +50,78 @@ const Dataprotection = () => {
             datenschutz@heydata.de
           </a>
         </p>
+
+        <h2 className="text-2xl font-bold mt-6 mb-2">3. Hosting</h2>
+        <p className="mb-4 text-sm sm:text-base md:text-lg text-gray-700">
+          Unsere Website wird in zertifizierten Rechenzentren der Open Telekom
+          Cloud (T-Systems International GmbH) in Deutschland gehostet und
+          verarbeitet.
+          <br />
+          <br />
+          Die Verarbeitung erfolgt auf Grundlage eines
+          Auftragsverarbeitungsvertrags gemäß Art. 28 DSGVO.
+        </p>
+
+        <h2 className="text-2xl font-bold mt-6 mb-2">4. Zweck der Verarbeitung</h2>
+        <p className="mb-4 text-sm sm:text-base md:text-lg text-gray-700">
+          Die Verarbeitung erfolgt zur Bereitstellung der Software sowie zur
+          Durchführung der gesetzlich vorgeschriebenen Übertragung von
+          Passbildern.
+        </p>
+
+        <h2 className="text-2xl font-bold mt-6 mb-2">5. Rechtsgrundlagen</h2>
+        <p className="mb-4 text-sm sm:text-base md:text-lg text-gray-700">
+          Art. 6 Abs. 1 lit. b DSGVO (Vertrag)
+          <br />
+          Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse)
+        </p>
+
+        <h2 className="text-2xl font-bold mt-6 mb-2">6. Server-Logfiles</h2>
+        <p className="mb-4 text-sm sm:text-base md:text-lg text-gray-700">
+          Beim Zugriff werden technische Daten verarbeitet (IP-Adresse, Browser,
+          Zeit).
+          <br />
+          <br />
+          Speicherdauer: 7 Tage.
+        </p>
+
+        <h2 className="text-2xl font-bold mt-6 mb-2">7. Drittanbieter</h2>
+        <p className="mb-4 text-sm sm:text-base md:text-lg text-gray-700">
+          Bei Nutzung von Schnittstellen (z. B. Adobe Lightroom) gelten deren
+          Datenschutzbestimmungen.
+        </p>
+
+        <h2 className="text-2xl font-bold mt-6 mb-2">8. eID-Dienst</h2>
+        <p className="mb-4 text-sm sm:text-base md:text-lg text-gray-700">
+          Zur Identifikation nutzen wir Governikus eID.
+          <br />
+          <br />
+          Verarbeitung erfolgt gemäß Art. 28 DSGVO.
+        </p>
+
+        <h2 className="text-2xl font-bold mt-6 mb-2">9. Speicherdauer</h2>
+        <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+          Daten werden nur solange gespeichert, wie erforderlich.
+        </p>
+
+        <h2 className="text-2xl font-bold mt-6 mb-2">10. Rechte der Betroffenen</h2>
+        <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+          Betroffene haben das Recht auf Auskunft, Berichtigung, Löschung,
+          Einschränkung der Verarbeitung, Datenübertragbarkeit, Widerspruch
+          sowie das Recht, sich bei einer Datenschutzaufsichtsbehörde zu
+          beschweren.
+        </p>
+
+        <h2 className="text-2xl font-bold mt-6 mb-2">11. Datensicherheit</h2>
+        <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+          Übertragung erfolgt verschlüsselt (SSL/TLS).
+        </p>
+
+        <h2 className="text-2xl font-bold mt-6 mb-2">12. Änderungen</h2>
+        <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+          Diese Datenschutzerklärung kann angepasst werden.
+        </p>
       </div>
-
-      <h2 className="text-2xl font-bold mt-6 mb-2">3. Hosting</h2>
-      <p className="mb-4 text-sm sm:text-base md:text-lg text-gray-700">
-        Unsere Website wird über die Open Telekom Cloud (T-Systems International GmbH) in Deutschland betrieben. Die Verarbeitung erfolgt gemäß Art. 28 DSGVO auf Grundlage eines Auftragsverarbeitungsvertrags.
-      </p>
-
-      <h2 className="text-2xl font-bold mt-6 mb-2">4. Identifikationsdienst (eID)</h2>
-      <p className="mb-4 text-sm sm:text-base md:text-lg text-gray-700">
-        Zur Durchführung von Identifikationsverfahren nutzen wir Governikus eID (Governikus GmbH &amp; Co. KG, Bremen). Die Verarbeitung erfolgt im Rahmen eines Auftragsverarbeitungsvertrags gemäß Art. 28 DSGVO.
-      </p>
-
-      <h2 className="text-2xl font-bold mt-6 mb-2">
-        5. Nutzung von Drittsoftware (z. B. Adobe Lightroom)
-      </h2>
-      <p className="mb-4 text-sm sm:text-base md:text-lg text-gray-700">
-        Bei Nutzung von Integrationen oder Plugins in Drittsoftware (z. B. Adobe Lightroom) kann es zur Verarbeitung von Daten innerhalb dieser Anwendungen kommen. Für die Datenverarbeitung durch den jeweiligen Drittanbieter gelten ausschließlich deren Datenschutzbestimmungen.
-      </p>
-
-      <h2 className="text-2xl font-bold mt-6 mb-2">6. Server-Logfiles</h2>
-      <p className="mb-4 text-sm sm:text-base md:text-lg text-gray-700">
-        Beim Zugriff werden Daten wie IP-Adresse, Datum, Uhrzeit und Browserinformationen verarbeitet. Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Löschung erfolgt nach 7 Tagen.
-      </p>
-
-      <h2 className="text-2xl font-bold mt-6 mb-2">7. Kontaktaufnahme</h2>
-      <p className="mb-4 text-sm sm:text-base md:text-lg text-gray-700">
-        Bei Kontaktaufnahme werden Daten zur Bearbeitung gespeichert. Rechtsgrundlage ist Art. 6 Abs. 1 lit. b und f DSGVO.
-      </p>
-
-      <h2 className="text-2xl font-bold mt-6 mb-2">8. Cookies</h2>
-      <p className="mb-4 text-sm sm:text-base md:text-lg text-gray-700">
-        Unsere Website verwendet Cookies. Nicht notwendige Cookies werden nur mit Einwilligung gemäß Art. 6 Abs. 1 lit. a DSGVO gesetzt.
-      </p>
-
-      <h2 className="text-2xl font-bold mt-6 mb-2">9. Google Analytics</h2>
-      <p className="mb-4 text-sm sm:text-base md:text-lg text-gray-700">
-        Wir nutzen Google Analytics mit IP-Anonymisierung. Rechtsgrundlage ist Art. 6 Abs. 1 lit. a DSGVO.
-      </p>
-      <p className="mb-4 text-sm sm:text-base md:text-lg text-gray-700">
-        Weitere Informationen:{" "}
-        <a
-          href="https://policies.google.com/privacy"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-blue-600 hover:text-blue-800 transition"
-        >
-          Privacy Policy – Privacy &amp; Terms – Google
-        </a>
-      </p>
-
-      <h2 className="text-2xl font-bold mt-6 mb-2">10. Speicherdauer</h2>
-      <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
-        Daten werden nur solange gespeichert, wie dies erforderlich ist.
-      </p>
-
-      <h2 className="text-2xl font-bold mt-6 mb-2">11. Ihre Rechte</h2>
-      <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
-        Sie haben Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung, Datenübertragbarkeit, Widerspruch sowie Beschwerde bei einer Aufsichtsbehörde.
-      </p>
-
-      <h2 className="text-2xl font-bold mt-6 mb-2">12. Datensicherheit</h2>
-      <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
-        Die Übertragung erfolgt verschlüsselt mittels SSL/TLS.
-      </p>
-
-      <h2 className="text-2xl font-bold mt-6 mb-2">13. Änderungen</h2>
-      <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
-        Diese Datenschutzerklärung kann angepasst werden.
-      </p>
     </div>
   );
 };

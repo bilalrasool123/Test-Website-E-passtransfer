@@ -80,26 +80,31 @@ const Impressum = () => {
         <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
           Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit:
         </p>
-        <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
-          Site relocation
-        </p>
-        <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
+        <a
+          href="https://ec.europa.eu/consumers/odr/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline text-blue-600 text-sm sm:text-base md:text-lg mb-4"
+        >
+          https://ec.europa.eu/consumers/odr/
+        </a>
+        <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4 mt-4">
           Wir sind nicht verpflichtet und nicht bereit, an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.
         </p>
 
         <p className="font-bold mt-4 mb-2 text-2xl">Haftung für Inhalte:</p>
         <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
-          Als Diensteanbieter sind wir gemäß den allgemeinen Gesetzen für eigene Inhalte auf diesen Seiten verantwortlich. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen bleiben unberührt. Bei Bekanntwerden von Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+          Als Diensteanbieter sind wir gemäß den allgemeinen Gesetzen für eigene Inhalte verantwortlich. Bei Bekanntwerden von Rechtsverletzungen werden diese Inhalte umgehend entfernt.
         </p>
 
         <p className="font-bold mt-4 mb-2 text-2xl">Haftung für Links:</p>
         <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
-          Unser Angebot enthält Links zu externen Websites Dritter. Für deren Inhalte übernehmen wir keine Gewähr. Bei Bekanntwerden von Rechtsverletzungen werden derartige Links umgehend entfernt.
+          Unser Angebot enthält Links zu externen Websites Dritter. Für deren Inhalte übernehmen wir keine Gewähr.
         </p>
 
         <p className="font-bold mt-4 mb-2 text-2xl">Urheberrecht:</p>
         <p className="text-sm sm:text-base md:text-lg text-gray-700 mb-4">
-          Die Inhalte dieser Website unterliegen dem deutschen Urheberrecht. Vervielfältigung und Verwertung bedürfen der Zustimmung des jeweiligen Autors.
+          Die Inhalte dieser Website unterliegen dem deutschen Urheberrecht.
         </p>
 
         <p className="font-bold mt-4 mb-2 text-2xl">Hosting:</p>
