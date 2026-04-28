@@ -442,29 +442,48 @@ const Employees = () => {
 
   return (
     <div className="min-h-screen lg:px-6 lg:py-10 px-2 py-8 max-w-6xl mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Mitarbeitende</h1>
-        {(userRole === "owner" || userRole === "manager") && (
-          <button
-            onClick={() => {
-              setShowModal(true);
-              setError("");
-            }}
-            className="bg-yellow-300 hover:bg-yellow-200 text-black px-4 py-2 rounded transition-colors duration-200"
-          >
-            Mitarbeitende einladen
-          </button>
-        )}
+    <div className="flex justify-between items-center mb-6">
+      <h1 className="text-3xl font-bold">Mitarbeitende</h1>
+    </div>
+
+      <div className="mb-8 rounded-md border border-yellow-300 bg-yellow-50 px-4 py-4 text-sm text-gray-800 flex items-center gap-3">
+        <span className="text-2xl" aria-hidden="true">
+          ⚠️
+        </span>
+        <p>
+          <span className="font-semibold">Hinweis:</span>{" "}
+          Für jede Einladung eines Mitarbeitenden ist eine eID-Authentifizierung
+          durch den Einladenden erforderlich.
+        </p>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <input
           type="text"
           placeholder="Mitarbeitende suchen"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full max-w-sm p-2 border-b-2 border-gray-300 outline-none focus:border-yellow-300 transition-colors duration-200"
+          className="w-full max-w-sm p-3 border border-gray-200 rounded-md outline-none focus:border-yellow-300 transition-colors duration-200"
         />
+
+        {(userRole === "owner" || userRole === "manager") && (
+          <div className="flex flex-col items-start md:items-center">
+            <button
+              onClick={() => {
+                setShowModal(true);
+                setError("");
+              }}
+              className="bg-yellow-300 hover:bg-yellow-200 text-black px-6 py-3 rounded transition-colors duration-200 font-medium"
+            >
+              Mitarbeitende einladen
+            </button>
+
+            <p className="mt-2 text-sm text-gray-500 flex items-center gap-2">
+              <span aria-hidden="true">🔐</span>
+              eID wird im nächsten Schritt abgefragt.
+            </p>
+          </div>
+        )}
       </div>
 
       <div className="overflow-x-auto border border-gray-200 rounded-lg shadow-sm">
